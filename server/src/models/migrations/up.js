@@ -55,6 +55,7 @@ const createTableSchema = () => {
             gifid integer REFERENCES gifs(id) ON DELETE CASCADE DEFAULT NULL,
             userid integer NOT NULL REFERENCES users(id) ON DELETE CASCADE,
             articleid integer REFERENCES articles(id) ON DELETE CASCADE DEFAULT NULL,
+            comment TEXT NOT NULL,
             createdon TIMESTAMP WITH TIME ZONE DEFAULT now(),
             updatedon TIMESTAMP WITH TIME ZONE DEFAULT now()
             );
