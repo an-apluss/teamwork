@@ -13,6 +13,7 @@
     "heroku-postbuild": "echo skip post-build",
     "up": "babel-node server/src/models/migrations/up",
     "down": "babel-node server/src/models/migrations/down",
+    "migrations": "npm run down && npm run up",
     "coveralls-coverage": "coveralls < lcov.info",
     "codeclimate-coverage": "codeclimate-test-reporter < lcov.info",
     "coverage": "nyc npm run test && npm run generate-lcov && npm run coveralls-coverage && npm run codeclimate-coverage"
