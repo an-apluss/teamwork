@@ -1,4 +1,6 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 
 /**
  *
@@ -19,5 +21,31 @@ export default class Helper {
   static async comparePassword(plaintextPasssword, hashedPasssword) {
     const comparePassword = await bcrypt.compare(plaintextPasssword, hashedPasssword);
     return comparePassword;
+  }
+
+  /**
+   *
+   * Handles the logic to generate user token
+   * @static
+   * @param {Object} userData user data to be encrypted
+   * @returns {String} encrypted user data
+   * @memberof Helper
+   */
+  static generateToken(userData) {
+    const { id, firstname, lastname, jobrole, isadmin, department } = userData;
+    const token = jwt.sign(
+      {
+        userId: id,
+        firstName: firstname,
+        lastName: lastname,
+        jobRole: jobrole,
+        isAdmin: isadmin,
+        department
+      },
+      process.env.JWT_PRIVATE_KEY,
+      { expiresIn: '24h' }
+    );
+
+    return token;
   }
 }

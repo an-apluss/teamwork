@@ -1,7 +1,7 @@
 import User from '../models/user';
 import Helper from '../helper/helper';
 
-const { comparePassword } = Helper;
+const { comparePassword, generateToken } = Helper;
 
 /**
  *
@@ -35,7 +35,7 @@ export default class UserService {
       code: 200,
       status: 'success',
       result: {
-        token: 'token',
+        token: generateToken(user),
         userId: user.id
       }
     };
