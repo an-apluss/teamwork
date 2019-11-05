@@ -1,4 +1,7 @@
 import User from '../models/user';
+import Helper from '../helper/helper';
+
+const { comparePassword } = Helper;
 
 /**
  *
@@ -18,8 +21,9 @@ export default class UserService {
   static async login(credential) {
     const { email, password } = credential;
     const user = await User.findOne('email', email);
+    const isSamePassword = await comparePassword(password, user.password);
 
-    if (!user || password !== user.password) {
+    if (!user || !isSamePassword) {
       return {
         code: 401,
         status: 'error',
