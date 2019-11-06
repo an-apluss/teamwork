@@ -60,6 +60,21 @@ describe('Test Suite For User Endpoints', () => {
           done();
         });
     });
+    it('should return error if user email is valid but does not exist', done => {
+      chai
+        .request(server)
+        .post('/api/v1/auth/signin')
+        .send({
+          email: 'anuoluseye@gmail.com',
+          password: 'secret'
+        })
+        .end((err, res) => {
+          res.status.should.be.eql(401);
+          res.body.status.should.be.eql('error');
+          res.body.message.should.be.a('string');
+          done();
+        });
+    });
     it('should return error if provided user email address is invalid', () => {
       chai
         .request(server)
