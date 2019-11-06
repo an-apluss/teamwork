@@ -1,7 +1,7 @@
 import User from '../models/user';
 import Helper from '../helper/helper';
 
-const { comparePassword, generateToken } = Helper;
+const { comparePassword, generateToken, hashPassword } = Helper;
 
 /**
  *
@@ -35,6 +35,40 @@ export default class UserService {
       code: 200,
       status: 'success',
       result: {
+        token: generateToken(user),
+        userId: user.id
+      }
+    };
+  }
+
+  /**
+   *
+   * Handles the logic to create a new user
+   * @static
+   * @param {Object} data data of the new user to be created
+   * @returns {Object}
+   * @memberof UserService
+   */
+  static async create(data) {
+    const { firstName, lastName, email, password, gender, jobRole, department, address } = data;
+    const hashedPassword = await hashPassword(password);
+
+    const user = await User.save(
+      firstName,
+      lastName,
+      email,
+      hashedPassword,
+      gender,
+      jobRole,
+      department,
+      address
+    );
+
+    return {
+      code: 201,
+      status: 'success',
+      result: {
+        message: 'User account successfully created',
         token: generateToken(user),
         userId: user.id
       }

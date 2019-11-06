@@ -48,4 +48,31 @@ export default class Helper {
 
     return token;
   }
+
+  /**
+   *
+   * Handles the logic to hash a plaintext password
+   * @static
+   * @param {String} plaintextPassword plaintext password to be hash
+   * @returns {String} return the hashed password
+   * @memberof Helper
+   */
+  static async hashPassword(plaintextPassword) {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(plaintextPassword, salt);
+    return hashedPassword;
+  }
+
+  /**
+   *
+   * Handles the logic to decrypt user's token
+   * @static
+   * @param {String} token encrypted data to be decrypt
+   * @returns {Object} decrypted data
+   * @memberof Helper
+   */
+  static verifyToken(token) {
+    const decode = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
+    return decode;
+  }
 }

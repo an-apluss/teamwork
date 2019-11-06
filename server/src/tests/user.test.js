@@ -206,29 +206,6 @@ describe('Test Suite For User Endpoints', () => {
           done();
         });
     });
-    it('should return error if firstname field is non-alphabeltic', done => {
-      chai
-        .request(server)
-        .post('/api/v1/auth/create-user')
-        .set({ Authorization: `Bearer ${adminToken}` })
-        .send({
-          firstName: '123',
-          lastName: 'bull',
-          email: 'johnbull@gmail.com',
-          password: 'secret',
-          gender: 'male',
-          jobRole: 'accountant',
-          department: 'accounting',
-          address: '22, jamebond street, london'
-        })
-        .end((err, res) => {
-          res.status.should.be.eql(422);
-          res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
-          done();
-        });
-    });
-
     it('should return error if lastname field is empty', done => {
       chai
         .request(server)
@@ -237,28 +214,6 @@ describe('Test Suite For User Endpoints', () => {
         .send({
           firstName: 'john',
           lastName: '',
-          email: 'johnbull@gmail.com',
-          password: 'secret',
-          gender: 'male',
-          jobRole: 'accountant',
-          department: 'accounting',
-          address: '22, jamebond street, london'
-        })
-        .end((err, res) => {
-          res.status.should.be.eql(422);
-          res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
-          done();
-        });
-    });
-    it('should return error if lastname field is non-alphabeltic', done => {
-      chai
-        .request(server)
-        .post('/api/v1/auth/create-user')
-        .set({ Authorization: `Bearer ${adminToken}` })
-        .send({
-          firstName: 'john',
-          lastName: '123',
           email: 'johnbull@gmail.com',
           password: 'secret',
           gender: 'male',
@@ -405,28 +360,6 @@ describe('Test Suite For User Endpoints', () => {
           done();
         });
     });
-    it('should return error if gender field is non-alphabeltic', done => {
-      chai
-        .request(server)
-        .post('/api/v1/auth/create-user')
-        .set({ Authorization: `Bearer ${adminToken}` })
-        .send({
-          firstName: 'john',
-          lastName: 'bull',
-          email: 'johnbull@gmail.com',
-          password: 'secret',
-          gender: 123,
-          jobRole: 'accountant',
-          department: 'accounting',
-          address: '22, jamebond street, london'
-        })
-        .end((err, res) => {
-          res.status.should.be.eql(422);
-          res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
-          done();
-        });
-    });
     it('should return error if jobRole field is empty', done => {
       chai
         .request(server)
@@ -439,28 +372,6 @@ describe('Test Suite For User Endpoints', () => {
           password: 'secret',
           gender: 'male',
           jobRole: '',
-          department: 'accounting',
-          address: '22, jamebond street, london'
-        })
-        .end((err, res) => {
-          res.status.should.be.eql(422);
-          res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
-          done();
-        });
-    });
-    it('should return error if jobRole field is non-alphabeltic', done => {
-      chai
-        .request(server)
-        .post('/api/v1/auth/create-user')
-        .set({ Authorization: `Bearer ${adminToken}` })
-        .send({
-          firstName: 'john',
-          lastName: 'bull',
-          email: 'johnbull@gmail.com',
-          password: 'secret',
-          gender: 'male',
-          jobRole: '123m',
           department: 'accounting',
           address: '22, jamebond street, london'
         })
@@ -484,28 +395,6 @@ describe('Test Suite For User Endpoints', () => {
           gender: 'male',
           jobRole: 'accountant',
           department: '',
-          address: '22, jamebond street, london'
-        })
-        .end((err, res) => {
-          res.status.should.be.eql(422);
-          res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
-          done();
-        });
-    });
-    it('should return error if department field is non-alphabeltic', done => {
-      chai
-        .request(server)
-        .post('/api/v1/auth/create-user')
-        .set({ Authorization: `Bearer ${adminToken}` })
-        .send({
-          firstName: 'john',
-          lastName: 'bull',
-          email: 'johnbull@gmail.com',
-          password: 'secret',
-          gender: 'male',
-          jobRole: 'accountant',
-          department: '123accounting',
           address: '22, jamebond street, london'
         })
         .end((err, res) => {
