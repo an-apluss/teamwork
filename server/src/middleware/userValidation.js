@@ -87,7 +87,7 @@ export default class UserValidation {
     const user = await User.findOne('email', req.body.email);
 
     if (user) {
-      return res.status(401).json({
+      return res.status(409).json({
         status: 'error',
         message: 'Email is already taken'
       });

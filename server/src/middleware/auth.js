@@ -25,7 +25,7 @@ export default class Auth {
     if (req.user.isAdmin !== true)
       return res.status(401).json({
         status: 'error',
-        error: `You are unauthorized to perform this action. Only admin are allowed`
+        message: `You are unauthorized to perform this action. Only admin are allowed`
       });
 
     return next();
