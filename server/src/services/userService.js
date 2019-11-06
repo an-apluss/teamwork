@@ -65,7 +65,7 @@ export default class UserService {
     );
 
     return {
-      code: 200,
+      code: 201,
       status: 'success',
       result: {
         message: 'User account successfully created',
