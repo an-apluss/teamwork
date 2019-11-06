@@ -62,4 +62,17 @@ export default class Helper {
     const hashedPassword = await bcrypt.hash(plaintextPassword, salt);
     return hashedPassword;
   }
+
+  /**
+   *
+   * Handles the logic to decrypt user's token
+   * @static
+   * @param {String} token encrypted data to be decrypt
+   * @returns {Object} decrypted data
+   * @memberof Helper
+   */
+  static verifyToken(token) {
+    const decode = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
+    return decode;
+  }
 }
