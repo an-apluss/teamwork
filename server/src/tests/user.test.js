@@ -156,8 +156,6 @@ describe('Test Suite For User Endpoints', () => {
           address: '22, jamesbond street, london'
         })
         .end((err, res) => {
-          console.log(res.status);
-          console.log(res.body);
           res.status.should.be.eql(401);
           res.body.status.should.be.eql('error');
           res.body.message.should.be.a('string');
