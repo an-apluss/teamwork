@@ -24,4 +24,27 @@ export default class User {
 
     return false;
   }
+
+  /**
+   *
+   * Handles the logic to insert user in the users table
+   * @static
+   * @param {String} firstName
+   * @param {String} lastName
+   * @param {String} email
+   * @param {String} password
+   * @param {String} gender
+   * @param {String} jobRole
+   * @param {String} department
+   * @param {String} address
+   * @returns {Object} return inserted data
+   * @memberof User
+   */
+  static async save(firstName, lastName, email, password, gender, jobRole, department, address) {
+    const sqlQuery = `INSERT INTO users(firstname, lastname, email, password, gender, jobrole, department, address) VALUES($1, $2, $3, $4, $5, $6, $7, $8) returning *`;
+    const values = [firstName, lastName, email, password, gender, jobRole, department, address];
+    const { rows } = await database.query(sqlQuery, values);
+
+    return rows[0];
+  }
 }

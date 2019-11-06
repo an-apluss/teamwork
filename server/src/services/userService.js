@@ -40,4 +40,36 @@ export default class UserService {
       }
     };
   }
+
+  /**
+   *
+   * Handles the logic to create a new user
+   * @static
+   * @param {Object} data data of the new user to be created
+   * @returns {Object}
+   * @memberof UserService
+   */
+  static async create(data) {
+    const { firstName, lastName, email, password, gender, jobRole, department, address } = data;
+    const user = await User.save(
+      firstName,
+      lastName,
+      email,
+      password,
+      gender,
+      jobRole,
+      department,
+      address
+    );
+
+    return {
+      code: 200,
+      status: 'success',
+      result: {
+        message: 'User account successfully created',
+        token: generateToken(user),
+        userId: user.id
+      }
+    };
+  }
 }

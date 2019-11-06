@@ -28,4 +28,24 @@ export default class UserController {
       next(error);
     }
   }
+
+  /**
+   *
+   * Handles user(employee) sign up response
+   * @static
+   * @param {Object} req request object
+   * @param {Object} res response object
+   * @param {*} next
+   * @returns {Object}
+   * @memberof UserController
+   */
+  static async createUser(req, res, next) {
+    try {
+      const { code, status, result } = await userService.create(req.body);
+
+      return res.status(code).send({ status, data: result });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
