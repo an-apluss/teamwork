@@ -48,4 +48,18 @@ export default class Helper {
 
     return token;
   }
+
+  /**
+   *
+   * Handles the logic to hash a plaintext password
+   * @static
+   * @param {String} plaintextPassword plaintext password to be hash
+   * @returns {String} return the hashed password
+   * @memberof Helper
+   */
+  static async hashPassword(plaintextPassword) {
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(plaintextPassword, salt);
+    return hashedPassword;
+  }
 }

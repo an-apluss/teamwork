@@ -1,7 +1,7 @@
 import User from '../models/user';
 import Helper from '../helper/helper';
 
-const { comparePassword, generateToken } = Helper;
+const { comparePassword, generateToken, hashPassword } = Helper;
 
 /**
  *
@@ -51,11 +51,13 @@ export default class UserService {
    */
   static async create(data) {
     const { firstName, lastName, email, password, gender, jobRole, department, address } = data;
+    const hashedPassword = await hashPassword(password);
+
     const user = await User.save(
       firstName,
       lastName,
       email,
-      password,
+      hashedPassword,
       gender,
       jobRole,
       department,
