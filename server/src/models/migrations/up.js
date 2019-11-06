@@ -29,7 +29,8 @@ const createTableSchema = () => {
             email varchar(128) NOT NULL UNIQUE,
             password varchar(128) NOT NULL,
             gender varchar(128) NOT NULL,
-            job_role varchar(128) NOT NULL DEFAULT 'employee',
+            jobrole varchar(128) NOT NULL,
+            isadmin boolean NOT NULL DEFAULT FALSE,
             department varchar(128) NOT NULL,
             address TEXT NOT NULL
             );
@@ -51,9 +52,10 @@ const createTableSchema = () => {
             );
     CREATE TABLE comments (
             id serial primary key NOT NULL,
-            gifid integer REFERENCES gifs(id) ON DELETE CASCADE,
+            gifid integer REFERENCES gifs(id) ON DELETE CASCADE DEFAULT NULL,
             userid integer NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-            articleid integer REFERENCES articles(id) ON DELETE CASCADE,
+            articleid integer REFERENCES articles(id) ON DELETE CASCADE DEFAULT NULL,
+            comment TEXT NOT NULL,
             createdon TIMESTAMP WITH TIME ZONE DEFAULT now(),
             updatedon TIMESTAMP WITH TIME ZONE DEFAULT now()
             );
