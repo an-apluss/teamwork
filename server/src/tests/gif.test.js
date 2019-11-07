@@ -9,7 +9,7 @@ chai.should();
 
 chai.use(chaiHttp);
 
-describe('Test Suite For User Endpoints', () => {
+describe('Test Suite For Gif Endpoints', () => {
   let employeeToken;
 
   before(done => {
@@ -58,7 +58,7 @@ describe('Test Suite For User Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(401);
           res.body.status.should.be.eql('error');
-          res.body.data.message.should.be.a('string');
+          res.body.message.should.be.a('string');
           done();
         });
     });
@@ -73,7 +73,22 @@ describe('Test Suite For User Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(422);
           res.body.status.should.be.eql('error');
-          res.body.data.message.should.be.a('string');
+          res.body.message.should.be.a('string');
+          done();
+        });
+    });
+    it('should return error if image field is empty', done => {
+      chai
+        .request(server)
+        .post('/api/v1/gifs')
+        .set('Authorization', `Bearer ${employeeToken}`)
+        .type('form')
+        .attach('image', '')
+        .field('title', 'weekend is approaching')
+        .end((err, res) => {
+          res.status.should.be.eql(422);
+          res.body.status.should.be.eql('error');
+          res.body.message.should.be.a('string');
           done();
         });
     });
@@ -81,14 +96,14 @@ describe('Test Suite For User Endpoints', () => {
       chai
         .request(server)
         .post('/api/v1/gifs')
-        .set('Authorization', '')
+        .set('Authorization', `Bearer ${employeeToken}`)
         .type('form')
         .attach('image', './server/src/tests/images/weekend.gif')
         .field('title', '')
         .end((err, res) => {
           res.status.should.be.eql(422);
           res.body.status.should.be.eql('error');
-          res.body.data.message.should.be.a('string');
+          res.body.message.should.be.a('string');
           done();
         });
     });
