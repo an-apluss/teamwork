@@ -19,7 +19,11 @@ export default class GifController {
    */
   static async createGif(req, res, next) {
     try {
-      const { code, status, result } = await gifService.create(req.body, req.user.userId);
+      const { code, status, result } = await gifService.create(
+        req.body,
+        req.file.path,
+        req.user.userId
+      );
 
       return res.status(code).json({
         status,

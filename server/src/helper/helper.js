@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
+import cloud from 'cloudinary';
 
 /**
  *
@@ -74,5 +75,29 @@ export default class Helper {
   static verifyToken(token) {
     const decode = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
     return decode;
+  }
+
+  /**
+   *
+   * Handle the logic to upload image on cloudinary platform
+   * @static
+   * @param {String} image
+   * @param {String} tag
+   * @returns Object
+   * @memberof Helper
+   */
+  static async cloudinaryUpload(image) {
+    const cloudinary = cloud.v2;
+    cloudinary.config({
+      cloud_name: process.env.CLOUDINARY_NAME,
+      api_key: process.env.CLOUDINARY_API_ID,
+      api_secret: process.env.CLOUDINARY_API_SECRET
+    });
+
+    const result = await cloudinary.uploader.upload(image, {
+      tags: 'teamwork',
+      resource_type: 'auto'
+    });
+    return result;
   }
 }

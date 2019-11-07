@@ -1,4 +1,7 @@
 import Gif from '../models/gif';
+import helper from '../helper/helper';
+
+const { cloudinaryUpload } = helper;
 
 /**
  *
@@ -15,9 +18,10 @@ export default class GifService {
    * @returns {oject}
    * @memberof GifService
    */
-  static async create(data, userId) {
-    const { title, image } = data;
-    const gif = await Gif.save(userId, title, image);
+  static async create(data, image, userId) {
+    const { title } = data;
+    const { url } = await cloudinaryUpload(image);
+    const gif = await Gif.save(userId, title, url);
 
     return {
       code: 201,
