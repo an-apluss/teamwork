@@ -11,6 +11,23 @@ chai.use(chaiHttp);
 
 describe('Test Suite For Gif Endpoints', () => {
   let employeeToken;
+  let employee2Token;
+  let newGifId;
+
+  before(done => {
+    chai
+      .request(server)
+      .post('/api/v1/auth/signin')
+      .send({
+        email: 'bidemikarunwi@gmail.com',
+        password: 'secret'
+      })
+      .end((err, res) => {
+        const { token } = res.body.data;
+        employee2Token = token;
+        done();
+      });
+  });
 
   before(done => {
     chai
@@ -23,6 +40,20 @@ describe('Test Suite For Gif Endpoints', () => {
       .end((err, res) => {
         const { token } = res.body.data;
         employeeToken = token;
+        done();
+      });
+  });
+
+  before(done => {
+    chai
+      .request(server)
+      .post('/api/v1/gifs')
+      .set('Authorization', `Bearer ${employeeToken}`)
+      .type('form')
+      .attach('image', './server/src/tests/images/weekend.gif')
+      .field('title', 'weekend is approaching')
+      .end((err, res) => {
+        newGifId = res.body.data.gifId;
         done();
       });
   });
@@ -104,6 +135,45 @@ describe('Test Suite For Gif Endpoints', () => {
           res.status.should.be.eql(422);
           res.body.status.should.be.eql('error');
           res.body.message.should.be.a('string');
+          done();
+        });
+    });
+  });
+  describe('DELETE /api/v1/gifs/<:gifId>', () => {
+    it('should delete gif image post if gifId and token exist', done => {
+      chai
+        .request(server)
+        .delete(`/api/v1/gifs/${newGifId}`)
+        .set('Authorization', `Bearer ${employeeToken}`)
+        .end((err, res) => {
+          res.status.should.be.eql(200);
+          res.body.status.should.be.eql('success');
+          res.body.data.message.should.be.eql('GIF post successfully deleted');
+          res.body.data.gifId.should.be.a('number');
+          done();
+        });
+    });
+    it('should return error if no token is provided', done => {
+      chai
+        .request(server)
+        .delete(`/api/v1/gifs/${newGifId}`)
+        .set('Authorization', '')
+        .end((err, res) => {
+          res.status.should.be.eql(401);
+          res.body.status.should.be.eql('error');
+          res.body.data.message.should.be.eql('string');
+          done();
+        });
+    });
+    it('should return error if user try to delete colleague gif post', done => {
+      chai
+        .request(server)
+        .delete(`/api/v1/gifs/${newGifId}`)
+        .set('Authorization', `Bearer ${employee2Token}`)
+        .end((err, res) => {
+          res.status.should.be.eql(401);
+          res.body.status.should.be.eql('error');
+          res.body.data.message.should.be.eql('string');
           done();
         });
     });
