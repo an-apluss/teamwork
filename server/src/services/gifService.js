@@ -1,7 +1,7 @@
 import Gif from '../models/gif';
 import helper from '../helper/helper';
 
-const { cloudinaryUpload } = helper;
+const { cloudinaryUpload, cloudinaryDelete } = helper;
 
 /**
  *
@@ -55,6 +55,10 @@ export default class GifService {
       };
     }
 
+    const splitImageUrl = gif.imageurl.split('/');
+    const public_id = splitImageUrl[splitImageUrl.length - 1].split('.')[0];
+
+    await cloudinaryDelete(public_id);
     await Gif.deleteOne('id', gifId);
 
     return {
