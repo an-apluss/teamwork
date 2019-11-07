@@ -9,8 +9,9 @@ const route = express.Router();
 
 const { checkToken } = Auth;
 const { checkGifPost } = gifValidator;
-const { createGif } = gifController;
+const { createGif, deleteGif } = gifController;
 
 route.post('/', checkToken, multer, checkGifPost, createGif);
+route.delete('/:gifId', deleteGif);
 
 export default route;

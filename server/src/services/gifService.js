@@ -35,4 +35,35 @@ export default class GifService {
       }
     };
   }
+
+  /**
+   *
+   * Handles logic to delete a gif post
+   * @static
+   * @param {number} gifId
+   * @returns {object}
+   * @memberof GifService
+   */
+  static async delete(gifId) {
+    const gif = await Gif.findOne('id', gifId);
+
+    if (!gif) {
+      return {
+        code: 404,
+        status: 'error',
+        result: 'Gif post cannot be found'
+      };
+    }
+
+    await Gif.deleteOne('id', gifId);
+
+    return {
+      code: 200,
+      status: 'success',
+      result: {
+        gifId,
+        message: 'GIF post successfully deleted'
+      }
+    };
+  }
 }
