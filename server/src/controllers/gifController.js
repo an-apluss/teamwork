@@ -63,4 +63,34 @@ export default class GifController {
       next(error);
     }
   }
+
+  /**
+   * Handles the logic to display the response to fetch a specific gif post
+   *
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {*} next
+   * @returns
+   * @memberof GifController
+   */
+  static async fetchOneGif(req, res, next) {
+    try {
+      const { code, status, result } = await gifService.fetchOne(req.params.gifId);
+
+      if (status === 'success') {
+        return res.status(code).json({
+          status,
+          data: result
+        });
+      }
+
+      return res.status(code).json({
+        status,
+        error: result
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import Gif from '../models/gif';
+import Comment from '../models/comment';
 import helper from '../helper/helper';
 
 const { cloudinaryUpload, cloudinaryDelete } = helper;
@@ -67,6 +68,47 @@ export default class GifService {
       result: {
         gifId: parseInt(gifId, 10),
         message: 'GIF post successfully deleted'
+      }
+    };
+  }
+
+  static async fetchOne(gifId) {
+    const gif = await Gif.findOne('id', gifId);
+
+    if (!gif) {
+      return {
+        code: 404,
+        status: 'error',
+        error: 'Gif post cannot be found'
+      };
+    }
+
+    let comments;
+    const gifComments = await Comment.find('gifid', gifId);
+
+    if (gifComments) {
+      comments = gifComments.map(gifComment => {
+        const mappedresult = {
+          commentId: gifComment.id,
+          authorId: gifComment.userid,
+          comment: gifComment.comment
+        };
+
+        return mappedresult;
+      });
+    }
+
+    const { id, title, imageurl, createdon } = gif;
+
+    return {
+      code: 200,
+      status: 'success',
+      result: {
+        id: parseInt(id, 10),
+        title,
+        url: imageurl,
+        createdOn: createdon,
+        comments
       }
     };
   }
