@@ -33,7 +33,7 @@ export default class UserValidation {
     if (error) {
       return res.status(422).json({
         status: 'error',
-        message: error.details[0].message
+        error: error.details[0].message
       });
     }
 
@@ -42,7 +42,7 @@ export default class UserValidation {
     if (!user) {
       return res.status(401).json({
         status: 'error',
-        message: 'Provided login credential is incorrect. Check email or password'
+        error: 'Provided login credential is incorrect. Check email or password'
       });
     }
 
@@ -80,7 +80,7 @@ export default class UserValidation {
     if (error) {
       return res.status(422).json({
         status: 'error',
-        message: error.details[0].message
+        error: error.details[0].message
       });
     }
 
@@ -89,7 +89,7 @@ export default class UserValidation {
     if (user) {
       return res.status(409).json({
         status: 'error',
-        message: 'Email is already taken'
+        error: 'Email is already taken'
       });
     }
 

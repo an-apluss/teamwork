@@ -16,7 +16,7 @@ export default class Auth {
     } catch (ex) {
       return res.status(401).json({
         status: 'error',
-        message: `${ex.message}`
+        error: `${ex.message}`
       });
     }
   }
@@ -25,7 +25,7 @@ export default class Auth {
     if (req.user.isAdmin !== true)
       return res.status(401).json({
         status: 'error',
-        message: `You are unauthorized to perform this action. Only admin are allowed`
+        error: `You are unauthorized to perform this action. Only admin are allowed`
       });
 
     return next();
