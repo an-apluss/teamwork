@@ -71,7 +71,7 @@ describe('Test Suite For User Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(401);
           res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
+          res.body.error.should.be.a('string');
           done();
         });
     });
@@ -86,6 +86,7 @@ describe('Test Suite For User Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(422);
           res.body.status.should.be.eql('error');
+          res.body.error.should.be.a('string');
         });
     });
     it('should return error if provided user email address field is empty', () => {
@@ -99,6 +100,7 @@ describe('Test Suite For User Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(422);
           res.body.status.should.be.eql('error');
+          res.body.error.should.be.a('string');
         });
     });
     it('should return error if provided user password field is empty', () => {
@@ -112,6 +114,7 @@ describe('Test Suite For User Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(422);
           res.body.status.should.be.eql('error');
+          res.body.error.should.be.a('string');
         });
     });
   });
@@ -158,7 +161,7 @@ describe('Test Suite For User Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(401);
           res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
+          res.body.error.should.be.a('string');
           done();
         });
     });
@@ -180,7 +183,7 @@ describe('Test Suite For User Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(401);
           res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
+          res.body.error.should.be.a('string');
           done();
         });
     });
@@ -202,7 +205,7 @@ describe('Test Suite For User Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(422);
           res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
+          res.body.error.should.be.a('string');
           done();
         });
     });
@@ -224,7 +227,7 @@ describe('Test Suite For User Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(422);
           res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
+          res.body.error.should.be.a('string');
           done();
         });
     });
@@ -246,7 +249,7 @@ describe('Test Suite For User Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(422);
           res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
+          res.body.error.should.be.a('string');
           done();
         });
     });
@@ -268,7 +271,7 @@ describe('Test Suite For User Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(422);
           res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
+          res.body.error.should.be.a('string');
           done();
         });
     });
@@ -290,7 +293,7 @@ describe('Test Suite For User Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(409);
           res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
+          res.body.error.should.be.a('string');
           done();
         });
     });
@@ -312,7 +315,7 @@ describe('Test Suite For User Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(422);
           res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
+          res.body.error.should.be.a('string');
           done();
         });
     });
@@ -334,7 +337,7 @@ describe('Test Suite For User Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(422);
           res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
+          res.body.error.should.be.a('string');
           done();
         });
     });
@@ -356,7 +359,7 @@ describe('Test Suite For User Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(422);
           res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
+          res.body.error.should.be.a('string');
           done();
         });
     });
@@ -378,7 +381,7 @@ describe('Test Suite For User Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(422);
           res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
+          res.body.error.should.be.a('string');
           done();
         });
     });
@@ -400,7 +403,7 @@ describe('Test Suite For User Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(422);
           res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
+          res.body.error.should.be.a('string');
           done();
         });
     });
@@ -422,7 +425,7 @@ describe('Test Suite For User Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(422);
           res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
+          res.body.error.should.be.a('string');
           done();
         });
     });

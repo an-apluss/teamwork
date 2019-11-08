@@ -104,7 +104,7 @@ describe('Test Suite For Gif Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(401);
           res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
+          res.body.error.should.be.a('string');
           done();
         });
     });
@@ -119,7 +119,7 @@ describe('Test Suite For Gif Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(422);
           res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
+          res.body.error.should.be.a('string');
           done();
         });
     });
@@ -134,7 +134,7 @@ describe('Test Suite For Gif Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(422);
           res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
+          res.body.error.should.be.a('string');
           done();
         });
     });
@@ -149,7 +149,7 @@ describe('Test Suite For Gif Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(422);
           res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
+          res.body.error.should.be.a('string');
           done();
         });
     });
@@ -176,7 +176,7 @@ describe('Test Suite For Gif Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(401);
           res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
+          res.body.error.should.be.a('string');
           done();
         });
     });
@@ -188,7 +188,7 @@ describe('Test Suite For Gif Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(401);
           res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
+          res.body.error.should.be.a('string');
           done();
         });
     });
@@ -200,7 +200,7 @@ describe('Test Suite For Gif Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(401);
           res.body.status.should.be.eql('error');
-          res.body.message.should.be.a('string');
+          res.body.error.should.be.a('string');
           done();
         });
     });
