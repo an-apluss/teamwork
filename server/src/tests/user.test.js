@@ -192,7 +192,7 @@ describe('Test Suite For User Endpoints', () => {
         .send({
           firstName: '',
           lastName: 'bull',
-          email: 'johnbull@gmail.com',
+          email: 'johnbul@gmail.com',
           password: 'secret',
           gender: 'male',
           jobRole: 'accountant',
@@ -214,7 +214,7 @@ describe('Test Suite For User Endpoints', () => {
         .send({
           firstName: 'john',
           lastName: '',
-          email: 'johnbull@gmail.com',
+          email: 'johnbul@gmail.com',
           password: 'secret',
           gender: 'male',
           jobRole: 'accountant',
@@ -302,7 +302,7 @@ describe('Test Suite For User Endpoints', () => {
         .send({
           firstName: 'john',
           lastName: 'bull',
-          email: 'johnbull@gmail.com',
+          email: 'johnbul@gmail.com',
           password: '',
           gender: 'male',
           jobRole: 'accountant',
@@ -324,7 +324,7 @@ describe('Test Suite For User Endpoints', () => {
         .send({
           firstName: 'john',
           lastName: 'bull',
-          email: 'johnbull@gmail.com',
+          email: 'johnbul@gmail.com',
           password: 'secre',
           gender: 'male',
           jobRole: 'accountant',
@@ -346,7 +346,7 @@ describe('Test Suite For User Endpoints', () => {
         .send({
           firstName: 'john',
           lastName: 'bull',
-          email: 'johnbull@gmail.com',
+          email: 'johnbul@gmail.com',
           password: 'secret',
           gender: '',
           jobRole: 'accountant',
@@ -368,7 +368,7 @@ describe('Test Suite For User Endpoints', () => {
         .send({
           firstName: 'john',
           lastName: 'bull',
-          email: 'johnbull@gmail.com',
+          email: 'johnbul@gmail.com',
           password: 'secret',
           gender: 'male',
           jobRole: '',
@@ -390,7 +390,7 @@ describe('Test Suite For User Endpoints', () => {
         .send({
           firstName: 'john',
           lastName: 'bull',
-          email: 'johnbull@gmail.com',
+          email: 'johnbul@gmail.com',
           password: 'secret',
           gender: 'male',
           jobRole: 'accountant',
@@ -412,7 +412,7 @@ describe('Test Suite For User Endpoints', () => {
         .send({
           firstName: 'john',
           lastName: 'bull',
-          email: 'johnbull@gmail.com',
+          email: 'johnbul@gmail.com',
           password: 'secret',
           gender: 'male',
           jobRole: 'accountant',

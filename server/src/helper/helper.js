@@ -82,7 +82,6 @@ export default class Helper {
    * Handle the logic to upload image on cloudinary platform
    * @static
    * @param {String} image
-   * @param {String} tag
    * @returns Object
    * @memberof Helper
    */
@@ -99,5 +98,22 @@ export default class Helper {
       resource_type: 'auto'
     });
     return result;
+  }
+
+  /**
+   *
+   * Handles the logic to delete image on cloudinary platform
+   * @static
+   * @param {String} public_id cloudinary image name to be deleted
+   * @memberof Helper
+   */
+  static async cloudinaryDelete(public_id) {
+    const cloudinary = cloud.v2;
+    cloudinary.config({
+      cloud_name: process.env.CLOUDINARY_NAME,
+      api_key: process.env.CLOUDINARY_API_ID,
+      api_secret: process.env.CLOUDINARY_API_SECRET
+    });
+    await cloudinary.uploader.destroy(public_id);
   }
 }

@@ -33,4 +33,34 @@ export default class GifController {
       next(error);
     }
   }
+
+  /**
+   *
+   * Handles the logic to display response after gif post is deleted
+   * @static
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   * @returns
+   * @memberof GifController
+   */
+  static async deleteGif(req, res, next) {
+    try {
+      const { code, status, result } = await gifService.delete(req.params.gifId);
+
+      if (status === 'success') {
+        return res.status(code).json({
+          status,
+          data: result
+        });
+      }
+
+      return res.status(code).json({
+        status,
+        message: result
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
