@@ -13,6 +13,7 @@ describe('Test Suite For Gif Endpoints', () => {
   let employeeToken;
   let employee2Token;
   let newGifId;
+  let newGifId2;
 
   before(done => {
     chai
@@ -54,6 +55,20 @@ describe('Test Suite For Gif Endpoints', () => {
       .field('title', 'weekend is approaching')
       .end((err, res) => {
         newGifId = res.body.data.gifId;
+        done();
+      });
+  });
+
+  before(done => {
+    chai
+      .request(server)
+      .post('/api/v1/gifs')
+      .set('Authorization', `Bearer ${employeeToken}`)
+      .type('form')
+      .attach('image', './server/src/tests/images/weekend.gif')
+      .field('title', 'weekend is approaching')
+      .end((err, res) => {
+        newGifId2 = res.body.data.gifId;
         done();
       });
   });
@@ -156,24 +171,36 @@ describe('Test Suite For Gif Endpoints', () => {
     it('should return error if no token is provided', done => {
       chai
         .request(server)
-        .delete(`/api/v1/gifs/${newGifId}`)
+        .delete(`/api/v1/gifs/${newGifId2}`)
         .set('Authorization', '')
         .end((err, res) => {
           res.status.should.be.eql(401);
           res.body.status.should.be.eql('error');
-          res.body.data.message.should.be.eql('string');
+          res.body.message.should.be.a('string');
+          done();
+        });
+    });
+    it('should return error if gifId does not exist', done => {
+      chai
+        .request(server)
+        .delete(`/api/v1/gifs/100000`)
+        .set('Authorization', `Bearer ${employeeToken}`)
+        .end((err, res) => {
+          res.status.should.be.eql(401);
+          res.body.status.should.be.eql('error');
+          res.body.message.should.be.a('string');
           done();
         });
     });
     it('should return error if user try to delete colleague gif post', done => {
       chai
         .request(server)
-        .delete(`/api/v1/gifs/${newGifId}`)
+        .delete(`/api/v1/gifs/${newGifId2}`)
         .set('Authorization', `Bearer ${employee2Token}`)
         .end((err, res) => {
           res.status.should.be.eql(401);
           res.body.status.should.be.eql('error');
-          res.body.data.message.should.be.eql('string');
+          res.body.message.should.be.a('string');
           done();
         });
     });

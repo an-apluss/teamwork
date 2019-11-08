@@ -65,7 +65,7 @@ export default class GifService {
       code: 200,
       status: 'success',
       result: {
-        gifId,
+        gifId: parseInt(gifId, 10),
         message: 'GIF post successfully deleted'
       }
     };
