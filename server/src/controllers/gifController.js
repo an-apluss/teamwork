@@ -57,7 +57,7 @@ export default class GifController {
 
       return res.status(code).json({
         status,
-        message: result
+        error: result
       });
     } catch (error) {
       next(error);

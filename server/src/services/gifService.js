@@ -51,7 +51,7 @@ export default class GifService {
       return {
         code: 404,
         status: 'error',
-        result: 'Gif post cannot be found'
+        error: 'Gif post cannot be found'
       };
     }
 

@@ -26,7 +26,7 @@ export default class UserService {
     if (!user || !isSamePassword) {
       return {
         code: 401,
-        status: 'error',
+        error: 'error',
         result: 'Provided login credential is incorrect. Check email or password'
       };
     }

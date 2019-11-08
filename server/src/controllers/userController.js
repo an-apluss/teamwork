@@ -23,7 +23,7 @@ export default class UserController {
 
       if (status === 'success') return res.status(code).send({ status, data: result });
 
-      return res.status(code).send({ status, message: result });
+      return res.status(code).send({ status, error: result });
     } catch (error) {
       next(error);
     }

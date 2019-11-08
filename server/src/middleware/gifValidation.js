@@ -28,14 +28,14 @@ export default class GifValidation {
     if (error) {
       return res.status(422).json({
         status: 'error',
-        message: error.details[0].message
+        error: error.details[0].message
       });
     }
 
     if (!req.file) {
       return res.status(422).json({
         status: 'error',
-        message: 'Image is required'
+        error: 'Image is required'
       });
     }
 
@@ -59,7 +59,7 @@ export default class GifValidation {
     if (gif.userid !== userId && !isAdmin) {
       return res.status(401).json({
         status: 'error',
-        message: 'You cannot perform this action. Post does not belong to you'
+        error: 'You cannot perform this action. Post does not belong to you'
       });
     }
 
