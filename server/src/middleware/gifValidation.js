@@ -77,7 +77,7 @@ export default class GifValidation {
    * @memberof GifValidation
    */
   static checkGifId(req, res, next) {
-    const idIsNumeric = /^[0-9]$/.test(req.params.gifId);
+    const idIsNumeric = /^[0-9]+$/.test(req.params.gifId);
 
     if (!idIsNumeric) {
       return res.status(403).json({

@@ -52,7 +52,7 @@ export default class GifService {
       return {
         code: 404,
         status: 'error',
-        error: 'Gif post cannot be found'
+        result: 'Gif post cannot be found'
       };
     }
 
@@ -79,7 +79,7 @@ export default class GifService {
       return {
         code: 404,
         status: 'error',
-        error: 'Gif post cannot be found'
+        result: 'Gif post cannot be found'
       };
     }
 
