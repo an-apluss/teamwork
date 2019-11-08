@@ -8,11 +8,11 @@ import gifController from '../controllers/gifController';
 const route = express.Router();
 
 const { checkToken } = Auth;
-const { checkGifPost, checkGifOwner } = gifValidator;
+const { checkGifPost, checkGifOwner, checkGifId } = gifValidator;
 const { createGif, deleteGif, fetchOneGif } = gifController;
 
 route.post('/', checkToken, multer, checkGifPost, createGif);
-route.delete('/:gifId', checkToken, checkGifOwner, deleteGif);
-route.get('/:gifId', checkToken, fetchOneGif);
+route.delete('/:gifId', checkGifId, checkToken, checkGifOwner, deleteGif);
+route.get('/:gifId', checkGifId, checkToken, fetchOneGif);
 
 export default route;

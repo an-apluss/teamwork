@@ -65,4 +65,28 @@ export default class GifValidation {
 
     return next();
   }
+
+  /**
+   *
+   * Handles the logic to check if gif ID is numeric
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {*} next
+   * @returns {Object|Function}
+   * @memberof GifValidation
+   */
+  static checkGifId(req, res, next) {
+    const idIsNumeric = /^[0-9]$/.test(req.params.gifId);
+
+    if (!idIsNumeric) {
+      return res.status(403).json({
+        status: 'error',
+        error: 'ID must be number'
+      });
+    }
+
+    req.params.gifId = parseInt(req.params.gifId, 10);
+    return next();
+  }
 }
