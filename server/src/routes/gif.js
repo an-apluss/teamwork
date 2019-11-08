@@ -13,6 +13,6 @@ const { createGif, deleteGif, fetchOneGif } = gifController;
 
 route.post('/', checkToken, multer, checkGifPost, createGif);
 route.delete('/:gifId', checkToken, checkGifOwner, deleteGif);
-route.get('/:gifId', fetchOneGif);
+route.get('/:gifId', checkToken, fetchOneGif);
 
 export default route;
