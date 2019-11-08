@@ -205,4 +205,60 @@ describe('Test Suite For Gif Endpoints', () => {
         });
     });
   });
+  describe('GET /api/v1/gifs/<:gifId>', () => {
+    it('should fetch specific gif post if token and ID exist', done => {
+      chai
+        .request(server)
+        .get('/api/v1/gifs/1')
+        .set('Authorization', `Bearer ${employeeToken}`)
+        .end((err, res) => {
+          res.status.should.be.eql(200);
+          res.body.status.should.be.eql('success');
+          res.body.data.should.have.keys('id', 'title', 'url', 'createdOn', 'comments');
+          res.body.data.id.should.be.a('number');
+          res.body.data.title.should.be.a('string');
+          res.body.data.url.should.be.a('string');
+          res.body.data.comments[0].commentId.should.be.a('number');
+          res.body.data.comments[0].authorId.should.be.a('number');
+          res.body.data.comments[0].comment.should.be.a('string');
+          done();
+        });
+    });
+    it('should return error if no token is provided', done => {
+      chai
+        .request(server)
+        .get('/api/v1/gifs/1')
+        .set('Authorization', '')
+        .end((err, res) => {
+          res.status.should.be.eql(401);
+          res.body.status.should.be.eql('error');
+          res.body.error.should.be.a('string');
+          done();
+        });
+    });
+    it('should return error if ID does not exist', done => {
+      chai
+        .request(server)
+        .get(`/api/v1/gifs/${newGifId}`)
+        .set('Authorization', `Bearer ${employeeToken}`)
+        .end((err, res) => {
+          res.status.should.be.eql(404);
+          res.body.status.should.be.eql('error');
+          res.body.error.should.be.a('string');
+          done();
+        });
+    });
+    it('should return error if ID is non-numeric', done => {
+      chai
+        .request(server)
+        .get('/api/v1/gifs/me')
+        .set('Authorization', `Bearer ${employeeToken}`)
+        .end((err, res) => {
+          res.status.should.be.eql(403);
+          res.body.status.should.be.eql('error');
+          res.body.error.should.be.a('string');
+          done();
+        });
+    });
+  });
 });
