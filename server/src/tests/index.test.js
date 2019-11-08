@@ -29,7 +29,7 @@ describe('Test Suite For Entry File Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(404);
           res.body.status.should.be.eql('error');
-          res.body.message.should.be.eql('Route Does not Exist');
+          res.body.error.should.be.eql('Route Does not Exist');
         });
     });
   });
