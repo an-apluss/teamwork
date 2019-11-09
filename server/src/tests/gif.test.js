@@ -288,7 +288,7 @@ describe('Test Suite For Gif Endpoints', () => {
           res.body.status.should.be.eql('success');
           res.body.data.should.have.keys('message', 'createdOn', 'gifTitle', 'comment');
           res.body.data.message.should.be.a('string');
-          res.body.data.gifTitle.should.be.a('number');
+          res.body.data.gifTitle.should.be.a('string');
           res.body.data.comment.should.be.a('string');
           done();
         });

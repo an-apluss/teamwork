@@ -135,14 +135,13 @@ export default class GifService {
     }
 
     const commentInfo = await Comment.save(userId, gifId, comment);
-    const { gifid, createdon } = commentInfo;
+    const { createdon } = commentInfo;
 
     return {
       code: 201,
       status: 'success',
       result: {
         message: 'comment successfully created',
-        gifId: gifid,
         createdOn: createdon,
         gifTitle: gif.title,
         comment
