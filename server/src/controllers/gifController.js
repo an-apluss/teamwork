@@ -93,4 +93,37 @@ export default class GifController {
       next(error);
     }
   }
+
+  /**
+   *
+   * Handles the logic to display the response of the created comment
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {*} next
+   * @returns {object}
+   * @memberof GifController
+   */
+  static async createComment(req, res, next) {
+    try {
+      const { code, status, result } = await gifService.createComment(
+        req.params.gifId,
+        req.user.userId,
+        req.body.comment
+      );
+      if (status === 'success') {
+        return res.status(code).json({
+          status,
+          data: result
+        });
+      }
+
+      return res.status(code).json({
+        status,
+        error: result
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

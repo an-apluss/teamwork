@@ -24,4 +24,22 @@ export default class Comment {
 
     return false;
   }
+
+  /**
+   *
+   * Handles the logic to post a comment
+   * @static
+   * @param {number} userId
+   * @param {number} gifId
+   * @param {string} comment
+   * @returns
+   * @memberof Comment
+   */
+  static async save(userId, gifId, comment) {
+    const sqlQuery = `INSERT INTO comments(userid, gifid, comment) VALUES($1, $2, $3) returning *`;
+    const values = [userId, gifId, comment];
+    const { rows } = await database.query(sqlQuery, values);
+
+    return rows[0];
+  }
 }
