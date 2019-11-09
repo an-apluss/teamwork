@@ -14,6 +14,7 @@ describe('Test Suite For Gif Endpoints', () => {
   let employee2Token;
   let newGifId;
   let newGifId2;
+  let newGifId3;
 
   before(done => {
     chai
@@ -69,6 +70,20 @@ describe('Test Suite For Gif Endpoints', () => {
       .field('title', 'weekend is approaching')
       .end((err, res) => {
         newGifId2 = res.body.data.gifId;
+        done();
+      });
+  });
+
+  before(done => {
+    chai
+      .request(server)
+      .post('/api/v1/gifs')
+      .set('Authorization', `Bearer ${employee2Token}`)
+      .type('form')
+      .attach('image', './server/src/tests/images/weekend.gif')
+      .field('title', 'how to avoid debt')
+      .end((err, res) => {
+        newGifId3 = res.body.data.gifId;
         done();
       });
   });
@@ -255,6 +270,76 @@ describe('Test Suite For Gif Endpoints', () => {
         .set('Authorization', `Bearer ${employeeToken}`)
         .end((err, res) => {
           res.status.should.be.eql(403);
+          res.body.status.should.be.eql('error');
+          res.body.error.should.be.a('string');
+          done();
+        });
+    });
+  });
+  describe('POST /api/v1/gifs/<:gifId>/comment', () => {
+    it('should comment on gif if token and ID exist', done => {
+      chai
+        .request(server)
+        .post(`/api/v1/gifs/${newGifId3}/comment`)
+        .set('Authorization', `Bearer ${employeeToken}`)
+        .send({ comment: 'this is informative. Thanks' })
+        .end((err, res) => {
+          res.status.should.be.eql(201);
+          res.body.status.should.be.eql('success');
+          res.body.data.should.have.keys('message', 'createdOn', 'gifTitle', 'comment');
+          res.body.data.message.should.be.a('string');
+          res.body.data.gifTitle.should.be.a('number');
+          res.body.data.comment.should.be.a('string');
+          done();
+        });
+    });
+    it('should return error if no token is provided', done => {
+      chai
+        .request(server)
+        .post(`/api/v1/gifs/${newGifId3}/comment`)
+        .set('Authorization', '')
+        .send({ comment: 'this is informative. Thanks' })
+        .end((err, res) => {
+          res.status.should.be.eql(401);
+          res.body.status.should.be.eql('error');
+          res.body.error.should.be.a('string');
+          done();
+        });
+    });
+    it('should return error if ID does not exist', done => {
+      chai
+        .request(server)
+        .post(`/api/v1/gifs/${newGifId}/comment`)
+        .set('Authorization', `Bearer ${employeeToken}`)
+        .send({ comment: 'this is informative. Thanks' })
+        .end((err, res) => {
+          res.status.should.be.eql(404);
+          res.body.status.should.be.eql('error');
+          res.body.error.should.be.a('string');
+          done();
+        });
+    });
+    it('should return error if ID is non-numeric', done => {
+      chai
+        .request(server)
+        .post('/api/v1/gifs/me/comment')
+        .set('Authorization', `Bearer ${employeeToken}`)
+        .send({ comment: 'this is informative. Thanks' })
+        .end((err, res) => {
+          res.status.should.be.eql(403);
+          res.body.status.should.be.eql('error');
+          res.body.error.should.be.a('string');
+          done();
+        });
+    });
+    it('should return error if comment field is empty', done => {
+      chai
+        .request(server)
+        .post(`/api/v1/gifs/${newGifId2}/comment`)
+        .set('Authorization', `Bearer ${employee2Token}`)
+        .send({ comment: '' })
+        .end((err, res) => {
+          res.status.should.be.eql(422);
           res.body.status.should.be.eql('error');
           res.body.error.should.be.a('string');
           done();
