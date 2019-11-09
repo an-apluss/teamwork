@@ -112,4 +112,41 @@ export default class GifService {
       }
     };
   }
+
+  /**
+   *
+   * Handles the logic to create a comment
+   * @static
+   * @param {number} gifId
+   * @param {number} userId
+   * @param {string} comment
+   * @returns {object}
+   * @memberof GifService
+   */
+  static async createComment(gifId, userId, comment) {
+    const gif = await Gif.findOne('id', gifId);
+
+    if (!gif) {
+      return {
+        code: 404,
+        status: 'error',
+        result: 'Gif post cannot be found'
+      };
+    }
+
+    const commentInfo = await Comment.save(userId, gifId, comment);
+    const { gifid, createdon } = commentInfo;
+
+    return {
+      code: 201,
+      status: 'success',
+      result: {
+        message: 'comment successfully created',
+        gifId: gifid,
+        createdOn: createdon,
+        gifTitle: gif.title,
+        comment
+      }
+    };
+  }
 }
