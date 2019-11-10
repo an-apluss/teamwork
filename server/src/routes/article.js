@@ -12,6 +12,6 @@ const { checkArticleId, checkArticlePostData } = articleValidator;
 
 route.get('/:articleId', checkArticleId, checkToken, fetchOneArticle);
 route.post('/', checkToken, checkArticlePostData, createArticle);
-route.delete('/:articleId', deleteArticle);
+route.delete('/:articleId', checkArticleId, deleteArticle);
 
 export default route;
