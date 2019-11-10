@@ -8,10 +8,10 @@ const route = express.Router();
 
 const { checkToken } = Auth;
 const { fetchOneArticle, createArticle, deleteArticle } = articleController;
-const { checkArticleId, checkArticlePostData } = articleValidator;
+const { checkArticleId, checkArticlePostData, checkArticleOwner } = articleValidator;
 
 route.get('/:articleId', checkArticleId, checkToken, fetchOneArticle);
 route.post('/', checkToken, checkArticlePostData, createArticle);
-route.delete('/:articleId', checkArticleId, checkToken, deleteArticle);
+route.delete('/:articleId', checkArticleId, checkToken, checkArticleOwner, deleteArticle);
 
 export default route;

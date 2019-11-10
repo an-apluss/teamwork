@@ -1,4 +1,5 @@
 import Joi from '@hapi/joi';
+import Article from '../models/article';
 
 /**
  *
@@ -53,6 +54,30 @@ export default class ArticleValidation {
       return res.status(422).json({
         status: 'error',
         error: error.details[0].message
+      });
+    }
+
+    return next();
+  }
+
+  /**
+   *
+   * Handles the logic to allow only the owner of an article perform deletion on such article
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {*} next
+   * @returns {object | function}
+   * @memberof ArticleValidation
+   */
+  static async checkArticleOwner(req, res, next) {
+    const gif = await Article.findOne('id', req.params.articleId);
+    const { userId, isAdmin } = req.user;
+
+    if (gif.userid !== userId && !isAdmin) {
+      return res.status(401).json({
+        status: 'error',
+        error: 'You cannot perform this action. Post does not belong to you'
       });
     }
 
