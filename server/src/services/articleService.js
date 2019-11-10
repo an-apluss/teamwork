@@ -56,4 +56,31 @@ export default class ArticleService {
       }
     };
   }
+
+  /**
+   *
+   * Handles the logic to create an article post
+   * @static
+   * @param {object} articleData
+   * @param {number} userId
+   * @returns {object}
+   * @memberof ArticleService
+   */
+  static async create(articleData, userId) {
+    const { title, article } = articleData;
+
+    const articleInfo = await Article.save(userId, title, article);
+    const { id, createdon } = articleInfo;
+
+    return {
+      code: 201,
+      status: 'success',
+      result: {
+        message: 'Article successfully posted',
+        articleId: id,
+        createdOn: createdon,
+        title: articleInfo.title
+      }
+    };
+  }
 }
