@@ -11,6 +11,9 @@ chai.use(chaiHttp);
 
 describe('Test Suite For Article Endpoints', () => {
   let employeeToken;
+  let employee2Token;
+  let newArticleId;
+  let newArticle2Id;
 
   before(done => {
     chai
@@ -27,6 +30,37 @@ describe('Test Suite For Article Endpoints', () => {
       });
   });
 
+  before(done => {
+    chai
+      .request(server)
+      .post('/api/v1/auth/signin')
+      .send({
+        email: 'teebae@gmail.com',
+        password: 'secret'
+      })
+      .end((err, res) => {
+        const { token } = res.body.data;
+        employee2Token = token;
+        done();
+      });
+  });
+
+  before(done => {
+    chai
+      .request(server)
+      .post('/api/v1/articles')
+      .set('Authorization', `Bearer ${employee2Token}`)
+      .send({
+        title: 'basic in hygiene',
+        article:
+          'do not wait till your underwear get dirty before washing them. wash them on your first use'
+      })
+      .end((err, res) => {
+        newArticle2Id = res.body.articleId;
+        done();
+      });
+  });
+
   describe('POST /api/v1/articles', () => {
     it('should post an article if token and other data are valid', done => {
       chai
@@ -39,6 +73,7 @@ describe('Test Suite For Article Endpoints', () => {
             'asset can basically be describe as those thing that brings money/value to the company'
         })
         .end((err, res) => {
+          newArticleId = res.body.articleId;
           res.status.should.be.eql(201);
           res.body.status.should.be.eql('success');
           res.body.data.should.have.keys('message', 'articleId', 'createdOn', 'title');
@@ -147,6 +182,70 @@ describe('Test Suite For Article Endpoints', () => {
         .set('Authorization', `Bearer ${employeeToken}`)
         .end((err, res) => {
           res.status.should.be.eql(404);
+          res.body.status.should.be.eql('error');
+          res.body.error.should.be.a('string');
+          done();
+        });
+    });
+  });
+  describe('DELETE /api/v1/articles/<:article>', () => {
+    it('should delete specific article if token and article ID exist', done => {
+      chai
+        .request(server)
+        .get(`/api/v1/articles/${newArticleId}`)
+        .set('Authorization', `Bearer ${employeeToken}`)
+        .end((err, res) => {
+          res.status.should.be.eql(200);
+          res.body.status.should.be.eql('success');
+          res.body.data.should.have.keys('id', 'message');
+          res.body.data.id.should.be.a('number');
+          res.body.data.message.should.eql('Article successfully deleted');
+          done();
+        });
+    });
+    it('should return error if no token is provided', done => {
+      chai
+        .request(server)
+        .get(`/api/v1/articles/${newArticle2Id}`)
+        .set('Authorization', '')
+        .end((err, res) => {
+          res.status.should.be.eql(401);
+          res.body.status.should.be.eql('error');
+          res.body.error.should.be.a('string');
+          done();
+        });
+    });
+    it('should return error if article ID does not exist', done => {
+      chai
+        .request(server)
+        .get(`/api/v1/articles/${newArticleId}`)
+        .set('Authorization', `Bearer ${employeeToken}`)
+        .end((err, res) => {
+          res.status.should.be.eql(404);
+          res.body.status.should.be.eql('error');
+          res.body.error.should.be.a('string');
+          done();
+        });
+    });
+    it('should return error if user attempt to delete colleague article', done => {
+      chai
+        .request(server)
+        .get(`/api/v1/articles/${newArticle2Id}`)
+        .set('Authorization', `Bearer ${employeeToken}`)
+        .end((err, res) => {
+          res.status.should.be.eql(403);
+          res.body.status.should.be.eql('error');
+          res.body.error.should.be.a('string');
+          done();
+        });
+    });
+    it('should return error if article ID is non-numeric', done => {
+      chai
+        .request(server)
+        .get('/api/v1/articles/me')
+        .set('Authorization', `Bearer ${employeeToken}`)
+        .end((err, res) => {
+          res.status.should.be.eql(403);
           res.body.status.should.be.eql('error');
           res.body.error.should.be.a('string');
           done();
