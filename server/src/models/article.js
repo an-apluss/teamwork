@@ -42,4 +42,17 @@ export default class Article {
 
     return rows[0];
   }
+
+  /**
+   *
+   * Handles the logic to delete a specific article from articles table
+   * @static
+   * @param {string} field this is the target column used to choose the article to delete
+   * @param {number|string} value this is the value of the column
+   * @memberof Article
+   */
+  static async deleteOne(field, value) {
+    const sqlQuery = `DELETE FROM articles WHERE ${field} = $1`;
+    await db.query(sqlQuery, [value]);
+  }
 }

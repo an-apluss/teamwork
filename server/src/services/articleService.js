@@ -83,4 +83,35 @@ export default class ArticleService {
       }
     };
   }
+
+  /**
+   *
+   * Handles the logic to delete a specific article
+   * @static
+   * @param {number} articleId
+   * @returns {object}
+   * @memberof ArticleService
+   */
+  static async delete(articleId) {
+    const articleInfo = Article.findOne('id', articleId);
+
+    if (!articleInfo) {
+      return {
+        code: 404,
+        status: 'error',
+        result: 'Article ID cannot be found'
+      };
+    }
+
+    await Article.deleteOne('id', articleId);
+
+    return {
+      code: 200,
+      status: 'success',
+      result: {
+        message: 'Article successfully deleted',
+        id: parseInt(articleId, 10)
+      }
+    };
+  }
 }
