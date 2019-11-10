@@ -1,3 +1,5 @@
+import Joi from '@hapi/joi';
+
 /**
  *
  *
@@ -26,6 +28,34 @@ export default class ArticleValidation {
     }
 
     req.params.articleId = parseInt(req.params.articleId, 10);
+    return next();
+  }
+
+  /**
+   *
+   * Handles the logic to check if article data are string and empty
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {*} next
+   * @returns {object}
+   * @memberof ArticleValidation
+   */
+  static checkArticlePostData(req, res, next) {
+    const schema = Joi.object({
+      title: Joi.string().required(),
+      article: Joi.string().required()
+    });
+
+    const { error } = schema.validate(req.body);
+
+    if (error) {
+      return res.status(422).json({
+        status: 'error',
+        error: error.details[0].message
+      });
+    }
+
     return next();
   }
 }

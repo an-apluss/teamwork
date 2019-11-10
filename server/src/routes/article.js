@@ -8,9 +8,9 @@ const route = express.Router();
 
 const { checkToken } = Auth;
 const { fetchOneArticle, createArticle } = articleController;
-const { checkArticleId } = articleValidator;
+const { checkArticleId, checkArticlePostData } = articleValidator;
 
 route.get('/:articleId', checkArticleId, checkToken, fetchOneArticle);
-route.post('/', checkToken, createArticle);
+route.post('/', checkToken, checkArticlePostData, createArticle);
 
 export default route;
