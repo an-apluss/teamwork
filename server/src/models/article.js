@@ -24,4 +24,22 @@ export default class Article {
 
     return false;
   }
+
+  /**
+   *
+   * Handle the logic to create an article in articles table
+   * @static
+   * @param {number} userId
+   * @param {string} title
+   * @param {string} article
+   * @returns {object}
+   * @memberof Article
+   */
+  static async save(userId, title, article) {
+    const sqlQuery = `INSERT INTO articles(userid, title, article) VALUES($1, $2, $3) returning *`;
+    const values = [userId, title, article];
+    const { rows } = await db.query(sqlQuery, values);
+
+    return rows[0];
+  }
 }

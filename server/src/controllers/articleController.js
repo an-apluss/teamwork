@@ -1,6 +1,22 @@
 import articleService from '../services/articleService';
 
+/**
+ *
+ *
+ * @export
+ * @class ArticleController
+ */
 export default class ArticleController {
+  /**
+   *
+   * Handles the logic to display the response for employee to view a specific article
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {*} next
+   * @returns {object}
+   * @memberof ArticleController
+   */
   static async fetchOneArticle(req, res, next) {
     try {
       const { code, status, result } = await articleService.fetchOne(req.params.articleId);
@@ -15,6 +31,29 @@ export default class ArticleController {
       return res.status(code).json({
         status,
         error: result
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   *
+   * Handles the logic of response when employee post an article
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {*} next
+   * @returns {object}
+   * @memberof ArticleController
+   */
+  static async createArticle(req, res, next) {
+    try {
+      const { code, status, result } = await articleService.create(req.body, req.user.userId);
+
+      return res.status(code).json({
+        status,
+        data: result
       });
     } catch (error) {
       next(error);

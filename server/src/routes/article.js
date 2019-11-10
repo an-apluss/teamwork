@@ -7,9 +7,10 @@ import articleValidator from '../middleware/articleValidation';
 const route = express.Router();
 
 const { checkToken } = Auth;
-const { fetchOneArticle } = articleController;
-const { checkArticleId } = articleValidator;
+const { fetchOneArticle, createArticle } = articleController;
+const { checkArticleId, checkArticlePostData } = articleValidator;
 
 route.get('/:articleId', checkArticleId, checkToken, fetchOneArticle);
+route.post('/', checkToken, checkArticlePostData, createArticle);
 
 export default route;
