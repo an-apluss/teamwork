@@ -41,7 +41,8 @@ describe('Test Suite For Article Endpoints', () => {
         .end((err, res) => {
           res.status.should.be.eql(201);
           res.body.status.should.be.eql('success');
-          res.body.data.should.have.keys('articleId', 'createdOn', 'title');
+          res.body.data.should.have.keys('message', 'articleId', 'createdOn', 'title');
+          res.body.data.message.should.be.eql('Article successfully posted');
           res.body.data.articleId.should.be.a('number');
           res.body.data.title.should.be.a('string');
           done();
