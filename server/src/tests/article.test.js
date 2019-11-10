@@ -39,7 +39,7 @@ describe('Test Suite For Article Endpoints', () => {
           res.body.data.should.have.keys('id', 'createdOn', 'title', 'article', 'comments');
           res.body.data.id.should.be.a('number');
           res.body.data.title.should.be.a('string');
-          res.body.data.artile.should.be.an('string');
+          res.body.data.article.should.be.an('string');
           res.body.data.comments[0].commentId.should.be.a('number');
           res.body.data.comments[0].comment.should.be.a('string');
           res.body.data.comments[0].authorId.should.be.a('number');
@@ -53,7 +53,7 @@ describe('Test Suite For Article Endpoints', () => {
         .set('Authorization', '')
         .end((err, res) => {
           res.status.should.be.eql(401);
-          res.body.status.should.be.eql('success');
+          res.body.status.should.be.eql('error');
           res.body.error.should.be.a('string');
           done();
         });
@@ -65,7 +65,7 @@ describe('Test Suite For Article Endpoints', () => {
         .set('Authorization', `Bearer ${employeeToken}`)
         .end((err, res) => {
           res.status.should.be.eql(403);
-          res.body.status.should.be.eql('success');
+          res.body.status.should.be.eql('error');
           res.body.error.should.be.a('string');
           done();
         });
@@ -77,7 +77,7 @@ describe('Test Suite For Article Endpoints', () => {
         .set('Authorization', `Bearer ${employeeToken}`)
         .end((err, res) => {
           res.status.should.be.eql(404);
-          res.body.status.should.be.eql('success');
+          res.body.status.should.be.eql('error');
           res.body.error.should.be.a('string');
           done();
         });
