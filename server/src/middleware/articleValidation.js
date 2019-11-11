@@ -92,4 +92,31 @@ export default class ArticleValidation {
 
     return next();
   }
+
+  /**
+   *
+   * Handles the logic to check if comment field is empty
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {*} next
+   * @returns {object | function}
+   * @memberof ArticleValidation
+   */
+  static checkArticleComment(req, res, next) {
+    const schema = Joi.object({
+      comment: Joi.string().required()
+    });
+
+    const { error } = schema.validate(req.body);
+
+    if (error) {
+      return res.status(422).json({
+        status: 'error',
+        error: error.details[0].message
+      });
+    }
+
+    return next();
+  }
 }
