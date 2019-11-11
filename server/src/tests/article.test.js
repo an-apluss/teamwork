@@ -344,4 +344,118 @@ describe('Test Suite For Article Endpoints', () => {
         });
     });
   });
+  describe('PATCH /api/v1/articles/<:articleId>', () => {
+    let existingTitle;
+    let existingArticle;
+
+    it('should update article if token and article ID exist', done => {
+      chai
+        .request(server)
+        .patch(`/api/v1/articles/${newArticle2Id}`)
+        .set('Authorization', `Bearer ${employee2Token}`)
+        .send({
+          title: 'basic hygiene',
+          article:
+            'do not wait till your underwear get dirty before washing them. wash it on your first use'
+        })
+        .end((err, res) => {
+          const { title, article } = res.body.data;
+
+          existingTitle = title;
+          existingArticle = article;
+
+          res.status.should.be.eql(202);
+          res.body.status.should.be.eql('success');
+          res.body.data.should.have.keys('message', 'title', 'article');
+          res.body.data.message.should.eql('Article successfully updated');
+          res.body.data.title.should.be.a('string');
+          res.body.data.article.should.be.a('string');
+          done();
+        });
+    });
+    it('should return existing title if title field is empty', done => {
+      chai
+        .request(server)
+        .patch(`/api/v1/articles/${newArticle2Id}`)
+        .set('Authorization', `Bearer ${employee2Token}`)
+        .send({
+          title: '',
+          article:
+            'do not wait till your underwear get dirty before washing them. wash it on your first use'
+        })
+        .end((err, res) => {
+          res.status.should.be.eql(202);
+          res.body.status.should.be.eql('success');
+          res.body.data.title.should.be.eql(`${existingTitle}`);
+          done();
+        });
+    });
+    it('should return existing article if article field is empty', done => {
+      chai
+        .request(server)
+        .patch(`/api/v1/articles/${newArticle2Id}`)
+        .set('Authorization', `Bearer ${employee2Token}`)
+        .send({
+          title: 'basic hygiene',
+          article: ''
+        })
+        .end((err, res) => {
+          res.status.should.be.eql(202);
+          res.body.status.should.be.eql('success');
+          res.body.data.article.should.be.eql(`${existingArticle}`);
+          done();
+        });
+    });
+    it('should return error if article ID does not exist', done => {
+      chai
+        .request(server)
+        .patch(`/api/v1/articles/${newArticleId}`)
+        .set('Authorization', `Bearer ${employeeToken}`)
+        .send({
+          title: 'basic hygiene',
+          article:
+            'do not wait till your underwear get dirty before washing them. wash it on your first use'
+        })
+        .end((err, res) => {
+          res.status.should.be.eql(404);
+          res.body.status.should.be.eql('error');
+          res.body.error.should.be.a('string');
+          done();
+        });
+    });
+    it('should return error if article ID is non-numeric', done => {
+      chai
+        .request(server)
+        .patch(`/api/v1/articles/me`)
+        .set('Authorization', `Bearer ${employeeToken}`)
+        .send({
+          title: 'basic hygiene',
+          article:
+            'do not wait till your underwear get dirty before washing them. wash it on your first use'
+        })
+        .end((err, res) => {
+          res.status.should.be.eql(403);
+          res.body.status.should.be.eql('error');
+          res.body.error.should.be.a('string');
+          done();
+        });
+    });
+    it('should return error if token is undefined', done => {
+      chai
+        .request(server)
+        .patch(`/api/v1/articles/${newArticle2Id}`)
+        .set('Authorization', '')
+        .send({
+          title: 'basic hygiene',
+          article:
+            'do not wait till your underwear get dirty before washing them. wash it on your first use'
+        })
+        .end((err, res) => {
+          res.status.should.be.eql(401);
+          res.body.status.should.be.eql('error');
+          res.body.error.should.be.a('string');
+          done();
+        });
+    });
+  });
 });
