@@ -82,4 +82,31 @@ export default class ArticleController {
       next(error);
     }
   }
+
+  /**
+   *
+   * Handles the logic to display the response after commenting on an article
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {*} next
+   * @returns {object}
+   * @memberof ArticleController
+   */
+  static async createComment(req, res, next) {
+    try {
+      const { code, status, data } = await articleService.createComment(
+        req.params.articleId,
+        req.user.userId,
+        req.body.comment
+      );
+
+      return res.status(code).json({
+        status,
+        data
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

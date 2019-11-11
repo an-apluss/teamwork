@@ -104,4 +104,34 @@ export default class ArticleService {
       }
     };
   }
+
+  /**
+   *
+   * Handles the logic to comment on an article
+   * @static
+   * @param {number} articleId ID of the article to be commented on
+   * @param {number} userId ID of the user commenting on the article
+   * @param {string} comment user comment
+   * @returns
+   * @memberof ArticleService
+   */
+  static async createComment(articleId, userId, comment) {
+    const articleInfo = await Article.findOne('id', articleId);
+    const { title, article } = articleInfo;
+
+    const commentInfo = await Comment.save(userId, articleId, comment);
+    const { createdon } = commentInfo;
+
+    return {
+      code: 201,
+      status: 'success',
+      data: {
+        message: 'comment successfully created',
+        createdOn: createdon,
+        articleTitle: title,
+        article,
+        comment
+      }
+    };
+  }
 }
