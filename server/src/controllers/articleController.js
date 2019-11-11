@@ -72,18 +72,11 @@ export default class ArticleController {
    */
   static async deleteArticle(req, res, next) {
     try {
-      const { code, status, result } = await articleService.delete(req.params.articleId);
-
-      if (status === 'success') {
-        return res.status(code).json({
-          status,
-          data: result
-        });
-      }
+      const { code, status, data } = await articleService.delete(req.params.articleId);
 
       return res.status(code).json({
         status,
-        error: result
+        data
       });
     } catch (error) {
       next(error);

@@ -93,22 +93,12 @@ export default class ArticleService {
    * @memberof ArticleService
    */
   static async delete(articleId) {
-    const articleInfo = Article.findOne('id', articleId);
-
-    if (!articleInfo) {
-      return {
-        code: 404,
-        status: 'error',
-        result: 'Article ID cannot be found'
-      };
-    }
-
     await Article.deleteOne('id', articleId);
 
     return {
       code: 200,
       status: 'success',
-      result: {
+      data: {
         message: 'Article successfully deleted',
         id: parseInt(articleId, 10)
       }
