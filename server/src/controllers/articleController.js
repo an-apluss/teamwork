@@ -59,4 +59,27 @@ export default class ArticleController {
       next(error);
     }
   }
+
+  /**
+   *
+   * Handle the logic to display the response when an article is deleted
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {*} next
+   * @returns {Object}
+   * @memberof ArticleController
+   */
+  static async deleteArticle(req, res, next) {
+    try {
+      const { code, status, data } = await articleService.delete(req.params.articleId);
+
+      return res.status(code).json({
+        status,
+        data
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
