@@ -119,14 +119,14 @@ export default class ArticleService {
     const articleInfo = await Article.findOne('id', articleId);
     const { title, article } = articleInfo;
 
-    const commentInfo = await Comment.save(userId, articleId, comment);
+    const commentInfo = await Comment.save(userId, 'articleid', articleId, comment);
     const { createdon } = commentInfo;
 
     return {
       code: 201,
       status: 'success',
       data: {
-        message: 'comment successfully created',
+        message: 'Comment successfully created',
         createdOn: createdon,
         articleTitle: title,
         article,

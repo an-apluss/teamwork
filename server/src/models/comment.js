@@ -29,15 +29,16 @@ export default class Comment {
    *
    * Handles the logic to post a comment
    * @static
-   * @param {number} userId
-   * @param {number} gifId
-   * @param {string} comment
+   * @param {number} userId the ID of user that comment
+   * @param {string} gifOrArticleField this is to specify if the comment is for gif or article post
+   * @param {string | number} gifOrArticleValue value of gifOrArticleField
+   * @param {string} comment comment to be created
    * @returns
    * @memberof Comment
    */
-  static async save(userId, gifId, comment) {
-    const sqlQuery = `INSERT INTO comments(userid, gifid, comment) VALUES($1, $2, $3) returning *`;
-    const values = [userId, gifId, comment];
+  static async save(userId, gifOrArticleField, gifOrArticleValue, comment) {
+    const sqlQuery = `INSERT INTO comments(userid, ${gifOrArticleField}, comment) VALUES($1, $2, $3) returning *`;
+    const values = [userId, gifOrArticleValue, comment];
     const { rows } = await database.query(sqlQuery, values);
 
     return rows[0];

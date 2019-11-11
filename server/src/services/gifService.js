@@ -134,7 +134,7 @@ export default class GifService {
       };
     }
 
-    const commentInfo = await Comment.save(userId, gifId, comment);
+    const commentInfo = await Comment.save(userId, 'gifid', gifId, comment);
     const { createdon } = commentInfo;
 
     return {
