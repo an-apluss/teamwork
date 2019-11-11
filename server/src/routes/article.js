@@ -13,6 +13,6 @@ const { checkArticleId, checkArticlePostData, checkArticleOwner } = articleValid
 route.get('/:articleId', checkArticleId, checkToken, fetchOneArticle);
 route.post('/', checkToken, checkArticlePostData, createArticle);
 route.delete('/:articleId', checkArticleId, checkToken, checkArticleOwner, deleteArticle);
-route.post('/:articleId/comment', checkToken, createComment);
+route.post('/:articleId/comment', checkArticleId, checkToken, createComment);
 
 export default route;
