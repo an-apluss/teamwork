@@ -267,4 +267,81 @@ describe('Test Suite For Article Endpoints', () => {
         });
     });
   });
+  describe('POST /api/v1/articles/<:articleId>/comment', () => {
+    it('should comment on article if token and article ID exist', done => {
+      chai
+        .request(server)
+        .post(`/api/v1/articles/${newArticle2Id}/comment`)
+        .set('Authorization', `Bearer ${employeeToken}`)
+        .send({ comment: 'this is informative. Thanks' })
+        .end((err, res) => {
+          res.status.should.be.eql(201);
+          res.body.status.should.be.eql('success');
+          res.body.data.should.have.keys(
+            'message',
+            'createdOn',
+            'articleTitle',
+            'article',
+            'comment'
+          );
+          res.body.data.message.should.eql('Comment successfully created');
+          res.body.data.articleTitle.should.be.a('string');
+          res.body.data.article.should.be.a('string');
+          res.body.data.comment.should.be.a('string');
+          done();
+        });
+    });
+    it('should return error if article ID does not exist', done => {
+      chai
+        .request(server)
+        .post(`/api/v1/articles/${newArticleId}/comment`)
+        .set('Authorization', `Bearer ${employeeToken}`)
+        .send({ comment: 'this is informative. Thanks' })
+        .end((err, res) => {
+          res.status.should.be.eql(404);
+          res.body.status.should.be.eql('error');
+          res.body.error.should.be.a('string');
+          done();
+        });
+    });
+    it('should return error if token does not exist', done => {
+      chai
+        .request(server)
+        .post(`/api/v1/articles/${newArticle2Id}/comment`)
+        .set('Authorization', '')
+        .send({ comment: 'this is informative. Thanks' })
+        .end((err, res) => {
+          res.status.should.be.eql(401);
+          res.body.status.should.be.eql('error');
+          res.body.error.should.be.a('string');
+          done();
+        });
+    });
+    it('should return error if article ID is non-numeric', done => {
+      chai
+        .request(server)
+        .post(`/api/v1/articles/me/comment`)
+        .set('Authorization', `Bearer ${employeeToken}`)
+        .send({ comment: 'this is informative. Thanks' })
+        .end((err, res) => {
+          res.status.should.be.eql(403);
+          res.body.status.should.be.eql('error');
+          res.body.error.should.be.a('string');
+          done();
+        });
+    });
+    it('should return error if comment field is empty', done => {
+      chai
+        .request(server)
+        .post(`/api/v1/articles/${newArticle2Id}/comment`)
+        .set('Authorization', `Bearer ${employeeToken}`)
+        .send({ comment: '' })
+        .end((err, res) => {
+          res.status.should.be.eql(422);
+          res.body.status.should.be.eql('error');
+          res.body.error.should.be.a('string');
+          done();
+        });
+    });
+  });
 });
