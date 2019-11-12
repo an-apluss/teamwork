@@ -6,6 +6,7 @@ import 'dotenv/config';
 import userRoute from './routes/user';
 import gifRoute from './routes/gif';
 import articleRoute from './routes/article';
+import feedRoute from './routes/feed';
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 app.use('/api/v1/auth', userRoute);
 app.use('/api/v1/gifs', gifRoute);
 app.use('/api/v1/articles', articleRoute);
+app.use('/api/v1/feed', feedRoute);
 
 app.use((req, res, next) => {
   const error = new Error('Route Does not Exist');
