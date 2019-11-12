@@ -25,6 +25,6 @@ route.get('/:articleId', checkArticleId, checkToken, fetchOneArticle);
 route.post('/', checkToken, checkArticlePostData, createArticle);
 route.delete('/:articleId', checkArticleId, checkToken, checkArticleOwner, deleteArticle);
 route.post('/:articleId/comment', checkArticleId, checkToken, checkArticleComment, createComment);
-route.patch('/:articleId', checkArticleId, updateArticle);
+route.patch('/:articleId', checkArticleId, checkToken, updateArticle);
 
 export default route;
