@@ -55,4 +55,21 @@ export default class Article {
     const sqlQuery = `DELETE FROM articles WHERE ${field} = $1`;
     await db.query(sqlQuery, [value]);
   }
+
+  /**
+   *
+   * Handles the logic to update title or article column in articles table
+   * @static
+   * @param {number} articleId
+   * @param {object} data value of column to be updated
+   * @returns {object}
+   * @memberof Article
+   */
+  static async updateOne(articleId, data) {
+    const { title, article } = data;
+
+    const sqlQuery = `update articles set title = $1, article = $2 where id = $3 returning title, article`;
+    const { rows } = await db.query(sqlQuery, [title, article, articleId]);
+    return rows[0];
+  }
 }

@@ -119,4 +119,43 @@ export default class ArticleValidation {
 
     return next();
   }
+
+  /**
+   *
+   * Handles the logic to ckeck if data for update is valid
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {object} next
+   * @returns {object}
+   * @memberof ArticleValidation
+   */
+  static async checkArticleUpdate(req, res, next) {
+    const { title, article } = req.body;
+    const articleInfo = await Article.findOne('id', req.params.articleId);
+
+    if (!title || title === '') {
+      req.body.title = articleInfo.title;
+    }
+
+    if (!article || article === '') {
+      req.body.article = articleInfo.article;
+    }
+
+    const schema = Joi.object({
+      title: Joi.string(),
+      article: Joi.string()
+    });
+
+    const { error } = schema.validate(req.body);
+
+    if (error) {
+      return res.status(422).json({
+        status: 'error',
+        error: error.details[0].message
+      });
+    }
+
+    return next();
+  }
 }
