@@ -109,4 +109,27 @@ export default class ArticleController {
       next(error);
     }
   }
+
+  /**
+   *
+   * Handles how the response will be display when article is updated
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {*} next
+   * @returns {object}
+   * @memberof ArticleController
+   */
+  static async updateArticle(req, res, next) {
+    try {
+      const { code, status, data } = await articleService.update(req.params.articleId, req.body);
+
+      return res.status(code).json({
+        status,
+        data
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

@@ -134,4 +134,26 @@ export default class ArticleService {
       }
     };
   }
+
+  /**
+   *
+   * Handles the logic to update an article
+   * @static
+   * @param {object} data
+   * @returns {oject}
+   * @memberof ArticleService
+   */
+  static async update(articleId, data) {
+    const articleInfo = await Article.updateOne(articleId, data);
+
+    return {
+      code: 202,
+      status: 'success',
+      data: {
+        message: 'Article successfully updated',
+        title: articleInfo.title,
+        article: articleInfo.article
+      }
+    };
+  }
 }
