@@ -131,6 +131,17 @@ export default class ArticleValidation {
    * @memberof ArticleValidation
    */
   static async checkArticleUpdate(req, res, next) {
+    const { title, article } = req.body;
+    const articleInfo = await Article.findOne('id', req.params.articleId);
+
+    if (!title || title === '') {
+      req.body.title = articleInfo.title;
+    }
+
+    if (!article || article === '') {
+      req.body.article = articleInfo.article;
+    }
+
     const schema = Joi.object({
       title: Joi.string(),
       article: Joi.string()
@@ -143,17 +154,6 @@ export default class ArticleValidation {
         status: 'error',
         error: error.details[0].message
       });
-    }
-
-    const { title, article } = req.body;
-    const articleInfo = await Article.findOne('id', req.params.articleId);
-
-    if (!title || title === '') {
-      req.body.title = articleInfo.title;
-    }
-
-    if (!article || article === '') {
-      req.body.article = articleInfo.article;
     }
 
     return next();
