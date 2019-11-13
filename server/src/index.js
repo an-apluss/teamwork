@@ -22,6 +22,10 @@ app.get('/', (req, res) => {
   });
 });
 
+app.get('/documentation', (req, res) => {
+  return res.redirect('https://documenter.getpostman.com/view/8110937/SW7UbVk3');
+});
+
 app.use('/api/v1/auth', userRoute);
 app.use('/api/v1/gifs', gifRoute);
 app.use('/api/v1/articles', articleRoute);
